@@ -2,6 +2,7 @@ const { Router } = require("express");
 const { createHash } = require("crypto");
 const phin = require("phin");
 const EventEmitter = require("events");
+const assert = require("assert");
 
 function getTimeHash(date = new Date()) {
     let hash = createHash("sha256");
@@ -19,8 +20,10 @@ module.exports = function ({
     route = "/api/cycle/" + getTimeHash(),
     ms = 1200000,
     verbose = false,
-    timestamps = false,
+    timestamps = true,
 } = {}) {
+    assert.notStrictEqual(origin, undefined);
+
     const router = Router();
     const emitter = new EventEmitter();
     const targetURL = trimURL(origin.trim() + route.trim());
