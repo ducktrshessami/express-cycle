@@ -5,6 +5,7 @@ const cycle = require("..");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
+const ORIGIN = `http://localhost:${PORT}`;
 
 let server;
 
@@ -46,17 +47,34 @@ describe(`Testing application on PORT ${PORT}`, function () {
     });
     describe("Looping", function () {
         it("Makes a GET request on start", function (done) {
-            const route = "/test";
+            const route = "/test1";
             const router = cycle({
                 route: route,
-                origin: `http://localhost:${PORT}`
+                origin: ORIGIN
             });
             app.get(route, function (req, res) {
-                res.status.end();
+                res.status(200).end();
                 done();
             });
             router.startLoop();
             router.stopLoop();
+        });
+        it("Repeatedly makes GET requests at specified interval", function (done) {
+            const route = "/test2";
+            const router = cycle({
+                route: route,
+                origin: ORIGIN,
+                ms: 10
+            });
+            let count = 0;
+            app.get(route, function (req, res) {
+                if (++count > 5) {
+                    router.stopLoop();
+                    done();
+                }
+                res.status(200).end();
+            });
+            router.startLoop();
         });
     });
 });
