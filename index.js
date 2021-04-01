@@ -26,7 +26,7 @@ module.exports = function ({
 
     const router = Router();
     const emitter = new EventEmitter();
-    const targetURL = trimURL(origin.trim() + route.trim());
+    const targetURL = trimURL(origin.trim()) + trimURL(route.trim());
 
     let interval;
 
