@@ -22,9 +22,8 @@ module.exports = function ({
     timestamps = false,
 } = {}) {
     const router = Router();
+    const emitter = new EventEmitter();
     const targetURL = trimURL(origin.trim() + route.trim());
-
-    EventEmitter.call(router);
 
     let interval;
 
@@ -50,10 +49,10 @@ module.exports = function ({
             .then(res => {
                 log(`Status code ${res.statusCode} from ${targetURL}`);
                 if (res.statusCode !== 200) {
-                    router.emit("error", res);
+                    emitter.emit("error", res);
                 }
             })
-            .catch(err => router.emit("error", err));
+            .catch(err => emitter.emit("error", err));
     }
 
     router.cycleRoute = route;
@@ -66,6 +65,7 @@ module.exports = function ({
         clearInterval(interval);
         log("Loop stopped");
     };
+    router.on = emitter.on;
 
     return router;
 };
