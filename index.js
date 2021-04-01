@@ -17,5 +17,7 @@ module.exports = function (options = {
         res.status(200).end();
     });
 
+    router.cycleRoute = options.route;
+
     return router;
 };
