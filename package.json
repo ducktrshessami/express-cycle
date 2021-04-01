@@ -4,7 +4,7 @@
   "description": "Boilerplate module to setup a unique route and ping it",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
