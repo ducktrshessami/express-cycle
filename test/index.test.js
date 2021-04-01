@@ -9,6 +9,15 @@ const PORT = process.env.PORT || 8080;
 let server;
 
 describe("Router properties", function () {
+    it("'origin' is a required property", function (done) {
+        try {
+            cycle();
+        }
+        catch {
+            done();
+        }
+        assert(false);
+    });
     it("Returns an express router", function () {
         const foo = cycle();
         const bar = express.Router();
