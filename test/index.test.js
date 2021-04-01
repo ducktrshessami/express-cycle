@@ -32,4 +32,16 @@ describe(`Testing application on PORT ${PORT}`, function () {
     after(function () {
         server.close();
     });
+    describe("Looping", function () {
+        it("Makes a GET request on start", function (done) {
+            const route = "/test";
+            const router = cycle({ route: route });
+            app.get(route, function (req, res) {
+                res.status.end();
+                done();
+            });
+            router.startLoop();
+            router.stopLoop();
+        });
+    });
 });
