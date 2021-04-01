@@ -15,7 +15,7 @@ describe("Router properties", function () {
         }
         assert(false);
     });
-    it("Returns an express router", function () {
+    it("returns an express router", function () {
         const foo = cycle({ origin: "" });
         const bar = express.Router();
         assert.strictEqual(foo.constructor, bar.constructor);
@@ -28,7 +28,7 @@ describe("Router properties", function () {
         });
         assert.strictEqual(foo.cycleRoute, route);
     });
-    it("Generates a unique route of the specified format (in README)", function () {
+    it("generates a unique route of the specified format (in README)", function () {
         const route = cycle({ origin: "" }).cycleRoute;
         assert(/\/api\/cycle\/[a-f0-9]+/i.test(route))
     });
@@ -36,7 +36,7 @@ describe("Router properties", function () {
 
 describe(`Testing application on PORT ${PORT}`, function () {
     describe("Looping", function () {
-        it("Makes a GET request on start", function (done) {
+        it("makes a GET request on start", function (done) {
             const app = express();
             const route = "/test1";
             const router = cycle({
@@ -52,7 +52,7 @@ describe(`Testing application on PORT ${PORT}`, function () {
             router.startLoop();
             router.stopLoop();
         });
-        it("Repeatedly makes GET requests at specified interval", function (done) {
+        it("repeatedly makes GET requests at specified interval", function (done) {
             const app = express();
             const route = "/test2";
             const router = cycle({
