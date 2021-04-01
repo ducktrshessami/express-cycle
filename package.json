@@ -16,5 +16,8 @@
   },
   "homepage": "https://github.com/ducktrshessami/express-cycle#readme",
   "author": "ducktrshessami",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
