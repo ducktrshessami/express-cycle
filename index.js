@@ -65,7 +65,7 @@ module.exports = function ({
         clearInterval(interval);
         log("Loop stopped");
     };
-    router.on = emitter.on;
+    router.on = (...params) => emitter.on(...params);
 
     return router;
 };

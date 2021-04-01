@@ -20,6 +20,10 @@ describe("Router properties", function () {
         const bar = express.Router();
         assert.strictEqual(foo.constructor, bar.constructor);
     });
+    it("has 'on' method for error event", function () {
+        const foo = cycle({ origin: "" });
+        assert(foo.on);
+    });
     it("Stores the used route name in 'cycleRoute' property", function () {
         const route = "/testing";
         const foo = cycle({
@@ -35,6 +39,34 @@ describe("Router properties", function () {
 });
 
 describe(`Testing application on PORT ${PORT}`, function () {
+    describe("Error events", function () {
+        it("emits an errors as events", function (done) {
+            const foo = cycle({ origin: "" });
+            foo.on("error", () => {
+                foo.stopLoop();
+                done();
+            });
+            foo.startLoop();
+        });
+        it("status codes other than 200 emit errors", function (done) {
+            const app = express();
+            const route = "/testerror";
+            const router = cycle({
+                route: route,
+                origin: ORIGIN
+            })
+            app.get(route, function (req, res) {
+                res.status(400).end();
+                server.close();
+            });
+            let server = app.listen(PORT);
+            router.on("error", () => {
+                router.stopLoop();
+                done();
+            });
+            router.startLoop();
+        });
+    });
     describe("Looping", function () {
         it("makes a GET request on start", function (done) {
             const app = express();
@@ -45,12 +77,12 @@ describe(`Testing application on PORT ${PORT}`, function () {
             });
             app.get(route, function (req, res) {
                 res.status(200).end();
+                router.stopLoop();
                 server.close();
                 done();
             });
             let server = app.listen(PORT);
             router.startLoop();
-            router.stopLoop();
         });
         it("repeatedly makes GET requests at specified interval", function (done) {
             const app = express();
@@ -63,7 +95,7 @@ describe(`Testing application on PORT ${PORT}`, function () {
             let count = 0;
             app.get(route, function (req, res) {
                 res.status(200).end();
-                if (++count >= 5) {
+                if (++count >= 3) {
                     router.stopLoop();
                     server.close();
                     done();
