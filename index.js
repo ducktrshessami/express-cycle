@@ -28,9 +28,14 @@ module.exports = function ({
         res.status(200).end();
     });
 
+    function ping() {
+        phin({ url: targetURL });
+    }
+
     router.cycleRoute = route;
     router.startLoop = function (milliseconds = ms) {
-        interval = setInterval(() => phin({ url: targetURL }), milliseconds);
+        ping();
+        interval = setInterval(ping, milliseconds);
     };
     router.stopLoop = function () {
         clearInterval(interval);
