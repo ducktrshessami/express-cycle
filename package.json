@@ -18,6 +18,7 @@
   "author": "ducktrshessami",
   "license": "UNLICENSED",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "phin": "^3.5.1"
   }
 }
