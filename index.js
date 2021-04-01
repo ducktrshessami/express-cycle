@@ -1,7 +1,10 @@
 const { Router } = require("express");
+const { createHash } = require("crypto");
 
 function getTimeHash(date = new Date()) {
-
+    let hash = createHash("sha256");
+    return hash.update(date.toISOString())
+        .digest("hex");
 }
 
 module.exports = function (options = {
