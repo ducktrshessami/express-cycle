@@ -1,5 +1,4 @@
 const express = require("express");
-const phin = require("phin");
 const assert = require("assert");
 const cycle = require("..");
 
