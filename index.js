@@ -10,9 +10,14 @@ function getTimeHash(date = new Date()) {
         .digest("hex");
 }
 
-function trimURL(str) {
+function trimStartURL(str) {
     str = str.trim();
-    return str.endsWith("/") ? trimURL(str.slice(0, -1)) : str;
+    return str.startsWith("/") ? trimStartURL(str.slice(1)) : str;
+}
+
+function trimEndURL(str) {
+    str = str.trim();
+    return str.endsWith("/") ? trimEndURL(str.slice(0, -1)) : str;
 }
 
 module.exports = function ({
@@ -26,7 +31,7 @@ module.exports = function ({
 
     const router = Router();
     const emitter = new EventEmitter();
-    const targetURL = trimURL(origin.trim()) + trimURL(route.trim());
+    const targetURL = trimEndURL(origin) + "/" + trimEndURL(trimStartURL(route));
 
     let interval;
 
