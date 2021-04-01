@@ -49,7 +49,7 @@ module.exports = function ({
             .then(res => {
                 log(`Status code ${res.statusCode} from ${targetURL}`);
                 if (res.statusCode !== 200) {
-                    emitter.emit("error", res);
+                    emitter.emit("error", new Error(res.statusMessage));
                 }
             })
             .catch(err => emitter.emit("error", err));
