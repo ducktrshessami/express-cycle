@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const { createHash } = require("crypto");
+const phin = require("phin");
 
 function getTimeHash(date = new Date()) {
     let hash = createHash("sha256");
@@ -7,17 +8,33 @@ function getTimeHash(date = new Date()) {
         .digest("hex");
 }
 
-module.exports = function (options = {
-    verbose: false,
-    route: "/api/cycle/" + getTimeHash()
-}) {
-    const router = Router();
+function trimURL(str) {
+    str = str.trim();
+    return str.endsWith("/") ? trimURL(str.slice(0, -1)) : str;
+}
 
-    router.get(options.route, function (req, res) {
+module.exports = function ({
+    verbose = false,
+    route = "/api/cycle/" + getTimeHash(),
+    origin,
+    ms = 1200000
+} = {}) {
+    const router = Router();
+    const targetURL = trimURL(origin.trim() + route.trim());
+
+    let interval;
+
+    router.get(route, function (req, res) {
         res.status(200).end();
     });
 
-    router.cycleRoute = options.route;
+    router.cycleRoute = route;
+    router.startLoop = function (milliseconds = ms) {
+        interval = setInterval(() => phin({ url: targetURL }), milliseconds);
+    };
+    router.stopLoop = function () {
+        clearInterval(interval);
+    };
 
     return router;
 };
