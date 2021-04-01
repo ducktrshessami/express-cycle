@@ -19,6 +19,10 @@ describe("Router properties", function () {
         const foo = cycle({ route: route });
         assert.strictEqual(foo.cycleRoute, route);
     });
+    it("Generates a unique route of the specified format (in README)", function () {
+        const route = cycle().cycleRoute;
+        assert(/\/api\/cycle\/[a-f0-9]+/i.test(route))
+    });
 });
 
 describe(`Testing application on PORT ${PORT}`, function () {
