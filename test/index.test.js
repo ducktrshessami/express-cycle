@@ -1,4 +1,6 @@
 const express = require("express");
+const phin = require("phin");
+const assert = require("assert");
 const cycle = require("..");
 
 const app = express();
@@ -6,14 +8,24 @@ const PORT = process.env.PORT || 8080;
 
 let server;
 
-before(function (done) {
-    server = app.listen(done);
+describe("Router properties", function () {
+    it("Returns an express router", function () {
+        const foo = cycle();
+        const bar = express.Router();
+        assert.strictEqual(foo.constructor, bar.constructor);
+    });
+    it("Stores the used route name in 'cycleRoute' property", function () {
+        const route = "/testing";
+        const foo = cycle({ route: route });
+        assert.strictEqual(foo.cycleRoute, route);
+    });
 });
 
-after(function () {
-    server.close();
-})
-
 describe(`Testing application on PORT ${PORT}`, function () {
-
+    before(function (done) {
+        server = app.listen(done);
+    });
+    after(function () {
+        server.close();
+    });
 });
