@@ -1,0 +1,20 @@
+{
+  "name": "express-cycle",
+  "version": "1.0.0",
+  "description": "Boilerplate module to setup a unique route and ping it",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ducktrshessami/express-cycle.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/ducktrshessami/express-cycle/issues"
+  },
+  "homepage": "https://github.com/ducktrshessami/express-cycle#readme",
+  "author": "ducktrshessami",
+  "license": "UNLICENSED"
+}
