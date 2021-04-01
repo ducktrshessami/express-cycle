@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const { createHash } = require("crypto");
 const phin = require("phin");
+const EventEmitter = require("events");
 
 function getTimeHash(date = new Date()) {
     let hash = createHash("sha256");
@@ -14,13 +15,16 @@ function trimURL(str) {
 }
 
 module.exports = function ({
-    verbose = false,
-    route = "/api/cycle/" + getTimeHash(),
     origin,
-    ms = 1200000
+    route = "/api/cycle/" + getTimeHash(),
+    ms = 1200000,
+    verbose = false,
+    timestamps = false,
 } = {}) {
     const router = Router();
     const targetURL = trimURL(origin.trim() + route.trim());
+
+    EventEmitter.call(router);
 
     let interval;
 
@@ -28,17 +32,39 @@ module.exports = function ({
         res.status(200).end();
     });
 
+    function log(message) {
+        if (verbose) {
+            message = message.trim();
+            if (timestamps) {
+                console.log("[%s]: %s", (new Date).toISOString(), message);
+            }
+            else {
+                console.log(message);
+            }
+        }
+    }
+
     function ping() {
-        phin({ url: targetURL });
+        log(`Pinging ${targetURL}`);
+        phin({ url: targetURL })
+            .then(res => {
+                log(`Status code ${res.statusCode} from ${targetURL}`);
+                if (res.statusCode !== 200) {
+                    router.emit("error", res);
+                }
+            })
+            .catch(err => router.emit("error", err));
     }
 
     router.cycleRoute = route;
     router.startLoop = function (milliseconds = ms) {
+        log("Starting loop");
         ping();
         interval = setInterval(ping, milliseconds);
     };
     router.stopLoop = function () {
         clearInterval(interval);
+        log("Loop stopped");
     };
 
     return router;
