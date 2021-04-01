@@ -2,11 +2,8 @@ const express = require("express");
 const assert = require("assert");
 const cycle = require("..");
 
-const app = express();
 const PORT = process.env.PORT || 8080;
 const ORIGIN = `http://localhost:${PORT}`;
-
-let server;
 
 describe("Router properties", function () {
     it("'origin' is a required property", function (done) {
@@ -38,14 +35,9 @@ describe("Router properties", function () {
 });
 
 describe(`Testing application on PORT ${PORT}`, function () {
-    before(function (done) {
-        server = app.listen(done);
-    });
-    after(function () {
-        server.close();
-    });
     describe("Looping", function () {
         it("Makes a GET request on start", function (done) {
+            const app = express();
             const route = "/test1";
             const router = cycle({
                 route: route,
@@ -53,26 +45,31 @@ describe(`Testing application on PORT ${PORT}`, function () {
             });
             app.get(route, function (req, res) {
                 res.status(200).end();
+                server.close();
                 done();
             });
+            let server = app.listen(PORT);
             router.startLoop();
             router.stopLoop();
         });
         it("Repeatedly makes GET requests at specified interval", function (done) {
+            const app = express();
             const route = "/test2";
             const router = cycle({
                 route: route,
                 origin: ORIGIN,
-                ms: 10
+                ms: 20
             });
             let count = 0;
             app.get(route, function (req, res) {
-                if (++count > 5) {
+                res.status(200).end();
+                if (++count >= 5) {
                     router.stopLoop();
+                    server.close();
                     done();
                 }
-                res.status(200).end();
             });
+            let server = app.listen(PORT);
             router.startLoop();
         });
     });
