@@ -56,7 +56,7 @@ module.exports = function ({
         phin({ url: targetURL })
             .then(res => {
                 log(`Status code ${res.statusCode} from ${targetURL}`);
-                if (res.statusCode !== 200) {
+                if (res.statusCode >= 400) {
                     emitter.emit("error", new Error(res.statusMessage));
                 }
             })
