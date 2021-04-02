@@ -71,3 +71,9 @@ It's just a [Router](https://expressjs.com/en/4x/api.html#router) with a GET rou
     If set to true, messages from `verbose` will have timestamps
 
     Defaults to `true`
+
+### Event: error
+
+Emits `error` when pinging the route throws an error
+
+This includes the response having a status code of 400 or above
