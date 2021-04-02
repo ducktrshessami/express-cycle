@@ -31,18 +31,18 @@ app.listen(PORT, function () {
 
 ## Class: Cycle
 
-It's just a [Router](https://expressjs.com/en/4x/api.html#router) with a GET route set up and a couple extra properties thrown in
+It's just a [**Router**](https://expressjs.com/en/4x/api.html#router) with a GET route set up and a couple extra properties thrown in
 
 ### constructor(options)
 
 Ok it's not technically a constructor but you know what I mean
 
-`options`: Object:
-- `origin`: String
+`options`: **Object**:
+- `origin`: **String**
 
     The origin of the deployed app's URL
 
-- `route`: String (optional)
+- `route`: **String** (optional)
 
     The route to be generated for the Router and made requests to
     
@@ -54,13 +54,13 @@ Ok it's not technically a constructor but you know what I mean
 
     where `:sha256hash` is the hex hash of the current time
 
-- `ms`: Number (optional)
+- `ms`: **Number** (optional)
 
     The duration of the interval of requests to the specified route
 
     Defaults to `1200000`, which is 20 minutes
 
-- `verbose`: Boolean (optional)
+- `verbose`: **Boolean** (optional)
 
     If set to true, descriptive messages will be printed to the console
 
@@ -68,7 +68,7 @@ Ok it's not technically a constructor but you know what I mean
 
     Defaults to `false`
 
-- `timestamps`: Boolean (optional)
+- `timestamps`: **Boolean** (optional)
 
     If set to true, messages from `verbose` will have timestamps
 
@@ -79,3 +79,13 @@ Ok it's not technically a constructor but you know what I mean
 Emits `error` when pinging the route throws an error
 
 This includes the response having a status code of 400 or above
+
+```js
+Cycle.on("error", console.error);
+```
+
+### Cycle.cycleRoute
+
+**String**
+
+
