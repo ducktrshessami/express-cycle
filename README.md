@@ -35,6 +35,8 @@ It's just a [Router](https://expressjs.com/en/4x/api.html#router) with a GET rou
 
 ### constructor(options)
 
+Ok it's not technically a constructor but you know what I mean
+
 `options`: Object:
 - `origin`: String
 
