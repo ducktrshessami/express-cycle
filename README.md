@@ -19,17 +19,17 @@ const Cycle = require("express-cycle");
 const PORT = process.env.PORT;
 
 var app = express();
-var cycle = Cycle({ origin: process.env.PUBLIC_URL });
+var cycler = Cycle({ origin: process.env.PUBLIC_URL });
 
 app.use(cycle);
 app.listen(PORT, function () {
-    cycle.startLoop();
+    cycler.startLoop();
 });
 ```
 
 # Documentation
 
-## Class: Cycle
+## Class: Cycler
 
 It's just a [**Router**](https://expressjs.com/en/4x/api.html#router) with a GET route set up and a couple extra properties thrown in
 
@@ -82,10 +82,10 @@ Emits `error` when pinging the route throws an error
 This includes the response having a status code of 400 or above
 
 ```js
-Cycle.on("error", console.error);
+Cycler.on("error", console.error);
 ```
 
-### Cycle.cycleRoute
+### Cycler.cycleRoute
 
 **String**
 
@@ -93,7 +93,7 @@ The path of the route in this Router
 
 Just in case
 
-### Cycle.startLoop(milliseconds)
+### Cycler.startLoop(milliseconds)
 
 Begins to ping the specified route at regular intervals
 
@@ -106,6 +106,6 @@ Params:
 
     Defaults to the value of `ms` in the [constructor]() options
 
-### Cycle.stopLoop()
+### Cycler.stopLoop()
 
 Clears the interval for pinging the specified route
