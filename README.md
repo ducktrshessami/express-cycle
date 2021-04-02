@@ -26,3 +26,48 @@ app.listen(PORT, function () {
     cycle.startLoop();
 });
 ```
+
+# Documentation
+
+## Class: Cycle
+
+It's just a [Router](https://expressjs.com/en/4x/api.html#router) with a GET route set up and a couple extra properties thrown in
+
+### constructor(options)
+
+`options`: Object:
+- `origin`: String
+
+    The origin of the deployed app's URL
+
+- `route`: String (optional)
+
+    The route to be generated for the Router and made requests to
+    
+    If undefined, a route will be generated with the following format:
+
+    ```
+    /api/cycle/:sha256hash
+    ```
+
+    where `:sha256hash` is the hex hash of the current time
+
+- `ms`: Number (optional)
+
+    The duration of the interval of requests to the specified route
+
+    Defaults to `1200000`, which is 20 minutes
+
+- `verbose`: Boolean (optional)
+
+    If set to true, descriptive messages will be printed to the console
+
+    Errors aren't printed in favor of allowing [`Event: error`]() to be handled
+
+    Defaults to `false`
+
+- `timestamps`: Boolean (optional)
+
+    If set to true, messages from `verbose` will have timestamps
+
+    Defaults to `true`
