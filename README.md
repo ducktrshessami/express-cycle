@@ -65,7 +65,7 @@ Params:
 
         If set to true, descriptive messages will be printed to the console
 
-        Errors aren't printed in favor of allowing [`Event: error`]() to be handled
+        Errors aren't printed in favor of allowing [`Event: error`](#event-error) to be handled
 
         Defaults to `false`
 
