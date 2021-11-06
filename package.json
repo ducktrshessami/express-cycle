@@ -17,7 +17,7 @@
   "homepage": "https://github.com/ducktrshessami/express-cycle#readme",
   "author": "ducktrshessami",
   "license": "MIT",
-  "types": "./typings/index.d.ts",
+  "types": "/typings/index.d.ts",
   "dependencies": {
     "phin": "^3.6.0"
   },
@@ -25,6 +25,6 @@
     "express": "^4.17.1"
   },
   "devDependencies": {
-    "mocha": "^9.0.2"
+    "mocha": "^9.1.3"
   }
 }
