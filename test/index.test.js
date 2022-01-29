@@ -40,7 +40,7 @@ describe("Router properties", function () {
 
 describe(`Testing application on PORT ${PORT}`, function () {
     describe("Error events", function () {
-        it("emits an errors as events", function (done) {
+        it("emits errors as events", function (done) {
             const foo = cycle({ origin: "" });
             foo.on("error", () => {
                 foo.stopLoop();
