@@ -1,5 +1,5 @@
 declare module "express-cycle" {
-    import { Router } from "express";
+    import { Router } from "express-serve-static-core";
 
     function Cycle(options: {
         origin: String,
@@ -9,13 +9,13 @@ declare module "express-cycle" {
         timestamps?: Boolean
     }): Cycler;
 
-    class Cycler extends Router {
-        public cycleRoute: String;
+    interface Cycler extends Router {
+        cycleRoute: String;
 
-        public on(event: "error", error: Error): this;
+        on(event: "error", error: Error): this;
 
-        public startLoop(milliseconds?: Number): void;
-        public stopLoop(): void;
+        startLoop(milliseconds?: Number): void;
+        stopLoop(): void;
     }
 
     export = Cycle;
