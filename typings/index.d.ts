@@ -12,7 +12,7 @@ declare module "express-cycle" {
     interface Cycler extends Router {
         cycleRoute: String;
 
-        on(event: "error", error: Error): this;
+        on(event: "error", listener: (this: this, error: Error) => void): this;
 
         startLoop(milliseconds?: Number): void;
         stopLoop(): void;
