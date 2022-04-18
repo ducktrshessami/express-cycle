@@ -20,7 +20,7 @@ function trimEndURL(str) {
     return str.endsWith("/") ? trimEndURL(str.slice(0, -1)) : str;
 }
 
-module.exports = function ({
+function cycle({
     origin,
     route = "/api/cycle/" + getTimeHash(),
     ms = 1200000,
@@ -63,17 +63,45 @@ module.exports = function ({
             .catch(err => emitter.emit("error", err));
     }
 
-    router.cycleRoute = route;
-    router.startLoop = function (milliseconds = ms) {
+    function startLoop(milliseconds = ms) {
         log("Starting loop");
         ping();
         interval = setInterval(ping, milliseconds);
-    };
-    router.stopLoop = function () {
+    }
+
+    function stopLoop() {
         clearInterval(interval);
         log("Loop stopped");
-    };
-    router.on = (...params) => emitter.on(...params);
+    }
+
+    function on(eventName, listener) {
+        let callback = listener;
+        if (typeof listener === "function") {
+            callback = listener.bind(router);
+        }
+        return emitter.on(eventName, callback);
+    }
+
+    Object.defineProperties(router, {
+        cycleRoute: {
+            value: route,
+            enumerable: true
+        },
+        startLoop: {
+            value: startLoop,
+            enumerable: true
+        },
+        stopLoop: {
+            value: stopLoop,
+            enumerable: true
+        },
+        on: {
+            value: on,
+            enumerable: true
+        }
+    });
 
     return router;
 };
+
+module.exports = cycle;
