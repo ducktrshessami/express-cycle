@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const { createHash } = require("crypto");
-const phin = require("phin");
+const { request } = require("undici");
+const { STATUS_CODES } = require("http");
 const EventEmitter = require("events");
 const assert = require("assert");
 
@@ -53,11 +54,11 @@ function cycle({
 
     function ping() {
         log(`Pinging ${targetURL}`);
-        phin({ url: targetURL })
+        request(targetURL)
             .then(res => {
                 log(`Status code ${res.statusCode} from ${targetURL}`);
                 if (res.statusCode >= 400) {
-                    emitter.emit("error", new Error(res.statusMessage));
+                    emitter.emit("error", new Error(`${res.statusCode} ${STATUS_CODES[res.statusCode]}`));
                 }
             })
             .catch(err => emitter.emit("error", err));
