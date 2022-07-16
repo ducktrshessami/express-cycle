@@ -5,7 +5,7 @@
   "main": "index.js",
   "types": "./typings/index.d.ts",
   "dependencies": {
-    "phin": "^3.6.1"
+    "undici": "^5.7.0"
   },
   "peerDependencies": {
     "express": "^4.18.1"
